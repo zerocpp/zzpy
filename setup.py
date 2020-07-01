@@ -18,7 +18,7 @@ setup(
     long_description="Python3 utilities",
     license="MIT Licence",
 
-    url="https://github.com/zerocpp/zpy",  # 项目相关文件地址，一般是github
+    url="https://github.com/zerocpp/zzpy",  # 项目相关文件地址，一般是github
     author="zerocpp",
     author_email="85642468@qq.com",
 
