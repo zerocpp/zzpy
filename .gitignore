@@ -1,6 +1,8 @@
 # work dir
 output/
 local-config.json
+debug.py
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

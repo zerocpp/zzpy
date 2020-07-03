@@ -1,4 +1,4 @@
-DEFAULT_ROOT_DIR = "./output"
+DEFAULT_ROOT_DIR = "output"
 
 
 def remove_dir(dir_path):
@@ -26,7 +26,7 @@ def init_dir(dir_path):
     create_dir(dir_path)
 
 
-def get_file_path_from_dir(dir_path):
+def get_one_file_path_from_dir(dir_path):
     """返回文件夹中（第一个）文件的地址"""
     import os
     for parent, dirnames, filenames in os.walk(dir_path):
@@ -38,15 +38,21 @@ def get_file_path_from_dir(dir_path):
 def move_file_from_src_dir(dst_file_path, src_dir_path):
     """从src_dir中拿到（唯一）文件，移动到dst_dir，并重命名"""
     import shutil
-    src_file_path = get_file_path_from_dir(src_dir_path)
+    import os
+    src_file_path = get_one_file_path_from_dir(src_dir_path)
+    if not src_file_path or not os.path.exists(src_file_path):
+        return
+    if not os.path.exists(os.path.dirname(dst_file_path)):
+        create_dir(os.path.dirname(dst_file_path))
     shutil.move(src_file_path, dst_file_path)
 
 
 def get_file_line_count(file_path):
     """获取文件行数"""
     count = 0
-    for _ in enumerate(open(file_path, 'rb')):
-        count += 1
+    with open(file_path, 'rb') as fr:
+        for _ in enumerate(fr):
+            count += 1
     return count
 
 
@@ -71,7 +77,7 @@ def get_file_path_list_from_dir(dir_path):
     return file_pathes
 
 
-def _read_file(file_path, encoding):
+def _read_file_using_encoding(file_path, encoding):
     """按编码读取文件"""
     f = None
     text = None
@@ -86,17 +92,32 @@ def _read_file(file_path, encoding):
     return text
 
 
+def read_bin_file(file_path):
+    """读取二进制文件"""
+    data = None
+    with open(file_path, mode="rb") as fr:
+        data = fr.read()
+    return data
+
+
 def read_file(file_path):
     """读取文件"""
     for encoding in ("utf8", "gbk"):
-        text = _read_file(file_path, encoding=encoding)
-        if text:
+        text = _read_file_using_encoding(file_path, encoding=encoding)
+        if text is not None:
             return text
     return None
 
 
-def write_file(content, file_path):
-    with open(file_path, mode="w", encoding="utf8") as fw:
+def write_file(content, file_path, encoding=None):
+    """写文件"""
+    import os
+    if encoding is None:
+        encoding = "utf8"
+    dir_path = os.path.dirname(file_path)
+    if not os.path.exists(dir_path):
+        create_dir(dir_path)
+    with open(file_path, mode="w", encoding=encoding) as fw:
         fw.write(content)
 
 
