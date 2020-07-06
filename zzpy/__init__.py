@@ -1,6 +1,3 @@
-from .zredis import redis_connect
-from .zmysql import mysql_connect
-
 # zprogress
 from .zprogress import pb
 
@@ -42,4 +39,15 @@ from .zmongo import MongoConfig, mongo_connect
 
 
 # zmysql
-from .zmysql import MySQLConfig, mysql_connect, mysql_execute, mysql_insert, mysql_query, mysql_query_one_value
+from .zmysql import MySQLConfig
+from .zmysql import mysql_connect
+from .zmysql import mysql_execute
+from .zmysql import mysql_insert
+from .zmysql import mysql_query
+from .zmysql import mysql_query_one_value
+
+
+# zredis
+from .zredis import redis_connect
+from .zredis import redis_decode
+from .zredis import ZRedis

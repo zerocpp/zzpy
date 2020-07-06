@@ -1,26 +1,24 @@
-def decode_redis(value):
+__REDIS_URL_KEY = "REDIS_URL"
+
+
+def redis_decode(value):
     if isinstance(value, bytes):
-        return value.decode('utf-8')
-    if isinstance(value, (list, tuple, set)):
-        return type(value)(map(decode_redis, value))
-    return value
+        return value.decode('utf8')
+    elif isinstance(value, (list, tuple, set)):
+        return type(value)(map(redis_decode, value))
+    else:
+        return value
 
 
-def redis_connect(redis_url=None):
-    def get_url_from_params():
-        try:
-            from .zarg import get_param
-            return get_param("REDIS_URL")
-        except:
-            return None
-
-    if not redis_url:
-        redis_url = get_url_from_params()
-    assert redis_url, "缺失REDIS_URL"
-    return RedisClient(redis_url)
+def redis_connect(url=None):
+    if not url:
+        from .zconfig import get_param
+        url = get_param(__REDIS_URL_KEY)
+    assert url
+    return ZRedis(url)
 
 
-class RedisClient:
+class ZRedis:
     def __init__(self, url):
         import redis
         self.client = redis.from_url(url)
@@ -32,7 +30,7 @@ class RedisClient:
         return self.blpop(key)
 
     def get(self, key):
-        return decode_redis(self.client.get(key))
+        return redis_decode(self.client.get(key))
 
     def set(self, key, value):
         return self.client.set(key, value)
@@ -48,7 +46,7 @@ class RedisClient:
         self.client.rename(src, dst)
 
     def sall(self, key):
-        return [decode_redis(it) for it in self.client.sunion(key)]
+        return [redis_decode(it) for it in self.client.sunion(key)]
 
     def sadd(self, key, *value):
         return self.client.sadd(key, *value)
@@ -57,7 +55,7 @@ class RedisClient:
         return self.client.sismember(key, value)
 
     def keys(self, pattern='*'):
-        return list(map(decode_redis, self.client.keys(pattern)))
+        return list(map(redis_decode, self.client.keys(pattern)))
 
     def sdiff(self, keys, *args):
         return self.client.sdiff(keys, *args)
@@ -72,28 +70,28 @@ class RedisClient:
         return self.client.llen(key)
 
     def blpop(self, keys, timeout=0):
-        return decode_redis(self.client.blpop(keys, timeout))[-1]
-    
+        return redis_decode(self.client.blpop(keys, timeout))[-1]
+
     def brpoplpush(self, src, dst, timeout=0):
-        return decode_redis(self.client.brpoplpush(src, dst, timeout))
+        return redis_decode(self.client.brpoplpush(src, dst, timeout))
 
     def lpop(self, key):
-        return decode_redis(self.client.lpop(key))
+        return redis_decode(self.client.lpop(key))
 
     def rpop(self, key):
-        return decode_redis(self.client.rpop(key))
+        return redis_decode(self.client.rpop(key))
 
     def brpop(self, keys, timeout=0):
-        return decode_redis(self.client.brpop(keys, timeout))[-1]
+        return redis_decode(self.client.brpop(keys, timeout))[-1]
 
     def lall(self, key):
-        return [decode_redis(it) for it in self.client.lrange(key, 0, -1)]
+        return [redis_decode(it) for it in self.client.lrange(key, 0, -1)]
 
     def lrem(self, key, value):
         self.client.lrem(key, 0, value)
 
     def lpopall(self, key):
-        items = [decode_redis(it) for it in self.client.lrange(key, 0, -1)]
+        items = [redis_decode(it) for it in self.client.lrange(key, 0, -1)]
         self.delete(key)
         return items
 
