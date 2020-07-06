@@ -1,79 +1,92 @@
-class MySQLClient:
-    def __init__(self, mysql_url):
-        self.client = self.new_mysql_client(mysql_url)
+__MYSQL_URL_KEY = "MYSQL_URL"
 
-    @classmethod
-    def new_mysql_client(cls, mysql_url):
-        import pymysql
-        host, port, database, user, password = cls.parse_mysql_url(mysql_url)
-        client = pymysql.Connect(
-            host=host, port=port, database=database, user=user, password=password)
-        client.autocommit(True)
-        return client
 
-    @classmethod
-    def parse_mysql_url(cls, mysql_url):
+class MySQLConfig:
+    default_host = "localhost"
+    default_port = 3306
+
+    def __init__(self, url=None, host=None, port=None, database=None, param=None, user=None, password=None):
         import re
-        host, port, database, param = re.search(
-            r'^mysql://(.*?):(.*?)/(.*?)\?(.*?)$', mysql_url).groups()
+        if url:
+            result = re.search(
+                "^(mysql://){0,1}([^:/]+)(:(\d+)){0,1}(/([^?]+)){0,1}(\?(.*)){0,1}", url)
+            groups = result.groups()
+            if not host:
+                host = groups[1] if groups[1] else self.default_host
+            if not port:
+                port = int(groups[3]) if groups[3] else self.default_port
+            if not database:
+                database = groups[5] if groups[5] else None
+            if not param:
+                param = dict([it.split('=')
+                              for it in groups[7].split('&')]) if groups[7] else {}
+            if not user:
+                user = param.get("user")
+            if not password:
+                user = param.get("password")
 
-        if not host:
-            host = 'localhost'
+        self.url = url
+        self.host = host
+        self.port = port
+        self.database = database
+        self.param = param if param else {}
+        self.user = user
+        self.password = password
 
-        if not port:
-            port = 3306
-        port = int(port)
+    def __eq__(self, value):
+        return self.host == value.host and self.port == value.port and self.database == value.database and self.param == value.param and self.user == value.user and self.password == value.password
 
-        user, password = None, None
 
-        if param:
-            param = dict([it.split('=') for it in param.split('&')])
-            user = param['user']
-            password = param['password']
+def mysql_connect(url=None, autocommit=True):
+    if not url:
+        from .zconfig import get_param
+        url = get_param(__MYSQL_URL_KEY)
+    assert url
 
-        return host, port, database, user, password
+    import pymysql
+    conf = MySQLConfig(url)
 
-    def scursor(self):
-        from pymysql.cursors import SSCursor
-        return SSCursor(self.client)
+    client = pymysql.Connect(
+        host=conf.host, port=conf.port, database=conf.database, user=conf.user, password=conf.password)
+    client.autocommit(autocommit)
+    return client
+
+
+def mysql_query_one_value(client, sql):
+    cursor = client.cursor()
+    cursor.execute(sql)
+    return cursor.fetchall()[0][0]
+
+
+def mysql_query(client, sql):
+    cursor = client.cursor()
+    cursor.execute(sql)
+    return cursor.fetchall()
+
+
+def mysql_execute(client, sql):
+    cursor = client.cursor()
+    return cursor.execute(sql)
+
+
+def mysql_insert(client, sql):
+    cursor = client.cursor()
+    res = cursor.execute(sql)
+    return cursor.lastrowid if res else 0
+
+
+class ZMySQL:
+    def __init__(self, url=None):
+        self.client = mysql_connect(url=url)
 
     def execute(self, sql):
-        cursor = self.client.cursor()
-        return cursor.execute(sql)
+        return mysql_execute(self.client, sql)
 
     def insert(self, sql):
-        cursor = self.client.cursor()
-        res = cursor.execute(sql)
-        return cursor.lastrowid if res else 0
+        return mysql_insert(self.client, sql)
 
     def query(self, sql):
-        cursor = self.client.cursor()
-        cursor.execute(sql)
-        return cursor.fetchall()
+        return mysql_query(self.client, sql)
 
     def query_one_value(self, sql):
-        return self.query(sql)[0][0]
-
-    def batch_insert(self, sql, values):
-        """
-        批量插入
-        :param values: 插入的值
-        :param sql: SQL
-        :return:
-        """
-        cursor = self.client.cursor()
-        row = cursor.executemany(sql, values)
-        return cursor.lastrowid if row else 0
-
-
-def mysql_connect(url=None):
-    def get_url_from_params():
-        try:
-            from .zarg import get_param
-            return get_param("MYSQL_URL")
-        except:
-            return None
-    if not url:
-        url = get_url_from_params()
-    assert url
-    return MySQLClient(url)
+        return mysql_query_one_value(self.client, sql)

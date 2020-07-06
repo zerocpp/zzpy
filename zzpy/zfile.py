@@ -159,3 +159,20 @@ def read_jsonline_with_progressbar(file_path, title=None):
     from zzpy import pb
     with open(file_path, encoding='utf8') as fr:
         yield from pb(jsonlines.Reader(fr), total=get_file_line_count(file_path), title=title)
+
+
+def _split_path_list(path_list, split_pattern):
+    component_list = []
+    for path in path_list:
+        component_list.extend(path.split(split_pattern))
+    return component_list
+
+
+def normalize_path(path):
+    """标准化路径"""
+    import os
+    components = [path]
+    for split_pattern in ("/", "\\"):
+        components = _split_path_list(components, split_pattern=split_pattern)
+    prefix = "/" if path.startswith("/") else ""
+    return prefix + os.path.join(*list(components))

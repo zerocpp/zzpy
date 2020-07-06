@@ -397,3 +397,38 @@ class ZfileTests(unittest.TestCase):
         self.assertEqual(dst_path, os.path.join(self.root_dir,
                                                 "dst", "1.txt"))
         self.assertEqual(read_file(dst_path), "1")
+
+    def test_normalize_path(self):
+        import os
+        from zzpy import windows_else
+        from zzpy import normalize_path
+
+        self.assertEqual(normalize_path(""), windows_else("", ""))
+
+        self.assertEqual(normalize_path("."), windows_else(".", "."))
+        self.assertEqual(normalize_path("./"), windows_else(".\\", "./"))
+        self.assertEqual(normalize_path(".\\"), windows_else(".\\", "./"))
+        self.assertEqual(normalize_path("./a"), windows_else(".\\a", "./a"))
+        self.assertEqual(normalize_path(".\\a"), windows_else(".\\a", "./a"))
+
+        self.assertEqual(normalize_path(".."), windows_else("..", ".."))
+        self.assertEqual(normalize_path("../"), windows_else("..\\", "../"))
+        self.assertEqual(normalize_path("..\\"), windows_else("..\\", "../"))
+        self.assertEqual(normalize_path("../a"), windows_else("..\\a", "../a"))
+        self.assertEqual(normalize_path("..\\a"),
+                         windows_else("..\\a", "../a"))
+
+        self.assertEqual(normalize_path("E:/a.txt"),
+                         windows_else("E:a.txt", "E:/a.txt"))
+        self.assertEqual(normalize_path("E:\\a.txt"),
+                         windows_else("E:a.txt", "E:/a.txt"))
+
+        self.assertEqual(normalize_path("E:/x/a.txt"),
+                         windows_else("E:x\\a.txt", "E:/x/a.txt"))
+        self.assertEqual(normalize_path("E:\\x\\a.txt"),
+                         windows_else("E:x\\a.txt", "E:/x/a.txt"))
+
+        self.assertEqual(normalize_path("/a.txt"),
+                         windows_else("/a.txt", "/a.txt"))
+        self.assertEqual(normalize_path("/x/a.txt"),
+                         windows_else("/x\\a.txt", "/x/a.txt"))
