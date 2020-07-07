@@ -26,5 +26,5 @@ setup(
     include_package_data=True,
     platforms="any",
     install_requires=["pymongo", "pymysql",
-                      "redis", "tqdm", "jsonlines"]  # 这个项目需要的第三方库
+                      "redis", "tqdm", "jsonlines", "pandas"]  # 这个项目需要的第三方库
 )
