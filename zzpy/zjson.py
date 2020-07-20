@@ -16,12 +16,16 @@ class DateEncoder(json.JSONEncoder):
             # return json.JSONEncoder.default(self, obj)
 
 
-def jsondumps(obj):
-    return json.dumps(obj, cls=DateEncoder)
+def jsondumps(obj, *, skipkeys=False, ensure_ascii=True, check_circular=True,
+              allow_nan=True, cls=None, indent=None, separators=None,
+              default=None, sort_keys=False, **kw):
+    return json.dumps(obj, skipkeys=skipkeys, ensure_ascii=ensure_ascii, check_circular=check_circular,
+                      allow_nan=allow_nan, cls=DateEncoder, indent=indent, separators=separators,
+                      default=default, sort_keys=sort_keys, **kw)
 
 
 def main():
-    print(jsondumps({"k": 1, "d": datetime.datetime.now()}))
+    print(jsondumps({"k": "v"}, indent=4))
 
 
 if __name__ == "__main__":

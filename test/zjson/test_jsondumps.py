@@ -26,3 +26,7 @@ class ZjsonJsondumpsTests(unittest.TestCase):
         expected_value = f'{{"a": 1, "b": "2"}}'
         self.assertEqual(z.jsondumps({"a": 1, "b": "2"}),
                          expected_value)
+
+    def test_jsondumps_with_indent(self):
+        expected_value = '{\n    "k": "v"\n}'
+        self.assertEqual(z.jsondumps({"k": "v"}, indent=4), expected_value)
