@@ -63,3 +63,8 @@ from .zgeo import bd09_to_wgs84
 from .zgeo import wgs84_to_bd09
 from .zgeo import out_of_china
 from .zgeo import calculate_distance
+
+
+# zrandom
+from .zrandom import randint
+from .zrandom import randhex
