@@ -72,3 +72,8 @@ from .zrandom import randhex
 
 # zjson
 from .zjson import jsondumps
+
+
+# ztime
+from .ztime import get_date
+from .ztime import get_today

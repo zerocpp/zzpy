@@ -30,5 +30,7 @@ Python3 Utilities
 
 
 # release log
-* 1.0.6: +jsondumps
+* 1.0.8: +get_today, +get_date
 * 1.0.7: jsondumps+params
+* 1.0.6: +jsondumps
+
