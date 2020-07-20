@@ -31,3 +31,4 @@ Python3 Utilities
 
 # release log
 * 1.0.6: +jsondumps
+* 1.0.7: jsondumps+params
