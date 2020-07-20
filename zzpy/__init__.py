@@ -68,3 +68,7 @@ from .zgeo import calculate_distance
 # zrandom
 from .zrandom import randint
 from .zrandom import randhex
+
+
+# zjson
+from .zjson import jsondumps

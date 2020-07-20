@@ -15,12 +15,12 @@ Python3 Utilities
 - [ ] zcaptcha
 - [ ] zbrowser
 - [ ] zjson
-- [ ] zrandom
 - [ ] zrun
 - [ ] ztime
 
 
 # 已完成
+- [x] zrandom
 - [x] zconfig
 - [x] zfile
 - [x] zmongo
@@ -29,3 +29,5 @@ Python3 Utilities
 - [x] zsys
 
 
+# release log
+* 1.0.6: +jsondumps
