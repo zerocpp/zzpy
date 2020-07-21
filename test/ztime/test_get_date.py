@@ -26,3 +26,21 @@ class TestCase(unittest.TestCase):
             self.assertEqual(z.get_date(days=offset), get_date(days=offset))
             self.assertEqual(z.get_date(offset), get_date(offset))
             self.assertEqual(z.get_date(days=offset), get_date(days=offset))
+
+    def test_get_date_with_separator(self):
+        self.assertEqual(z.get_date(), get_date(separator="-"))
+        self.assertEqual(z.get_date(), z.get_date(separator="-"))
+        self.assertEqual(z.get_date(separator="-"), get_date(separator="-"))
+        self.assertEqual(z.get_date(separator="/"), get_date(separator="/"))
+
+    def test_get_date_with_days_and_separator(self):
+        self.assertEqual(z.get_date(), get_date(days=0, separator="-"))
+        self.assertEqual(z.get_date(), z.get_date(days=0, separator="-"))
+        self.assertEqual(z.get_date(days=1, separator="*"),
+                         get_date(days=1, separator="*"))
+        self.assertEqual(z.get_date(days=1, separator="*"),
+                         z.get_date(days=1, separator="*"))
+        self.assertEqual(z.get_date(days=-1, separator="*"),
+                         get_date(days=-1, separator="*"))
+        self.assertEqual(z.get_date(days=-1, separator="*"),
+                         z.get_date(days=-1, separator="*"))

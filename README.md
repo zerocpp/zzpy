@@ -30,6 +30,7 @@ Python3 Utilities
 
 
 # release log
+* 1.0.20200721: ztime+get_month
 * 1.0.9: build.sh
 * 1.0.8: +get_today, +get_date
 * 1.0.7: jsondumps+params
