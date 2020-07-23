@@ -30,6 +30,7 @@ Python3 Utilities
 
 
 # release log
+* 1.0.20200723: zmysql.MySQLConfig对MYSQL_URL解析规则问题修复
 * 1.0.20200721: ztime+get_month
 * 1.0.9: build.sh
 * 1.0.8: +get_today, +get_date

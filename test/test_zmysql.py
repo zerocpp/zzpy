@@ -14,7 +14,7 @@ class ZMySQLTests(unittest.TestCase):
         super().tearDown()
         remove_dir(self.root_dir)
 
-    def test_mysql_config(self):
+    def test_MySQLConfig(self):
         from zzpy import MySQLConfig
 
         self.assertEqual(MySQLConfig(url="mysql://1.2.3.4"),
@@ -118,3 +118,6 @@ class ZMySQLTests(unittest.TestCase):
                          MySQLConfig(host="a", port=5, database="d", param={"x": "1"}))
         self.assertEqual(MySQLConfig(url="a:5/d?x=1&y=2"),
                          MySQLConfig(host="a", port=5, database="d", param={"x": "1", "y": "2"}))
+
+        self.assertEqual(MySQLConfig(url="mysql://a.b.c:123/?user=uuuu&password=pppp").to_dict(), {
+                         "host": "a.b.c", "port": 123, "user": "uuuu", "password": "pppp", "param": {"user": "uuuu", "password": "pppp"}, "url": "mysql://a.b.c:123/?user=uuuu&password=pppp"})

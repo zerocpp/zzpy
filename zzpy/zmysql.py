@@ -9,7 +9,7 @@ class MySQLConfig:
         import re
         if url:
             result = re.search(
-                "^(mysql://){0,1}([^:/]+)(:(\d+)){0,1}(/([^?]+)){0,1}(\?(.*)){0,1}", url)
+                "^(mysql://){0,1}([^:/]+)(:(\d+)){0,1}(/([^?]*)){0,1}(\?(.*)){0,1}", url)
             groups = result.groups()
             if not host:
                 host = groups[1] if groups[1] else self.default_host
@@ -23,7 +23,7 @@ class MySQLConfig:
             if not user:
                 user = param.get("user")
             if not password:
-                user = param.get("password")
+                password = param.get("password")
 
         self.url = url
         self.host = host
@@ -32,6 +32,24 @@ class MySQLConfig:
         self.param = param if param else {}
         self.user = user
         self.password = password
+
+    def to_dict(self):
+        d = {}
+        if self.url is not None:
+            d["url"] = self.url
+        if self.host is not None:
+            d["host"] = self.host
+        if self.port is not None:
+            d["port"] = self.port
+        if self.database is not None:
+            d["database"] = self.database
+        if self.param is not None:
+            d["param"] = self.param
+        if self.user is not None:
+            d["user"] = self.user
+        if self.password is not None:
+            d["password"] = self.password
+        return d
 
     def __eq__(self, value):
         return self.host == value.host and self.port == value.port and self.database == value.database and self.param == value.param and self.user == value.user and self.password == value.password
