@@ -93,10 +93,14 @@ def mysql_insert(client, sql):
     return cursor.lastrowid if res else 0
 
 
-def mysql_iter_table(client, table, fields=None, where_condition="", offset_limit=""):
+def mysql_iter_table(client, table, fields=None, where_condition=None, offset_limit=None):
     if where_condition:
         if not where_condition.startswith("where") and not where_condition.startswith("WHERE"):
             where_condition = "where "+where_condition
+    else:
+        where_condition = ""
+    if not offset_limit:
+        offset_limit = ""
     if fields:
         fields = ",".join(f"`{i}`" for i in fields)
     else:
@@ -113,10 +117,14 @@ def mysql_iter_table(client, table, fields=None, where_condition="", offset_limi
         yield item
 
 
-def mysql_count_table(client, table, where_condition="", offset_limit=""):
+def mysql_count_table(client, table, where_condition=None, offset_limit=None):
     if where_condition:
         if not where_condition.startswith("where") and not where_condition.startswith("WHERE"):
             where_condition = "where "+where_condition
+    else:
+        where_condition = ""
+    if not offset_limit:
+        offset_limit = ""
     sql = f"select count(*) from {table} {where_condition} {offset_limit}"
     return mysql_query_one_value(client, sql)
 
