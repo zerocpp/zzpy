@@ -12,11 +12,11 @@ class OssFile:
         if not config:
             from .zconfig import get_param
             config = OssConfig()
-            config.access_key_id = get_param("OSS_ACCESS_KEY_ID", default='')
+            config.access_key_id = get_param("OSS_ACCESS_KEY_ID", default_value='')
             config.access_key_secret = get_param(
-                "OSS_ACCESS_KEY_SECRET", default='')
-            config.bucket = get_param("OSS_BUCKET", default='')
-            config.endpoint = get_param("OSS_ENDPOINT", default='')
+                "OSS_ACCESS_KEY_SECRET", default_value='')
+            config.bucket = get_param("OSS_BUCKET", default_value='')
+            config.endpoint = get_param("OSS_ENDPOINT", default_value='')
         self.bucket = oss2.Bucket(
             oss2.Auth(config.access_key_id, config.access_key_secret), config.endpoint, config.bucket)
 
