@@ -30,6 +30,7 @@ Python3 Utilities
 
 
 # release log
+* 1.0.20200812.3: zjson.jsondumps cls参数默认值为DateEncoder
 * 1.0.20200812.2: zmysql.mysql_iter_table fix default parameters
 * 1.0.20200812.1: zmysql.mysql_iter_table+fields
 * 1.0.20200812: zmysql+mysql_iter_table

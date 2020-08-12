@@ -19,8 +19,10 @@ class DateEncoder(json.JSONEncoder):
 def jsondumps(obj, *, skipkeys=False, ensure_ascii=True, check_circular=True,
               allow_nan=True, cls=None, indent=None, separators=None,
               default=None, sort_keys=False, **kw):
+    if not cls:
+        cls = DateEncoder
     return json.dumps(obj, skipkeys=skipkeys, ensure_ascii=ensure_ascii, check_circular=check_circular,
-                      allow_nan=allow_nan, cls=DateEncoder, indent=indent, separators=separators,
+                      allow_nan=allow_nan, cls=cls, indent=indent, separators=separators,
                       default=default, sort_keys=sort_keys, **kw)
 
 
