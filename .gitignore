@@ -2,6 +2,7 @@
 output/
 local-config.json
 debug.py
+test/private/
 
 
 # Byte-compiled / optimized / DLL files
