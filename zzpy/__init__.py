@@ -80,3 +80,8 @@ from .zjson import jsondumps
 from .ztime import get_date
 from .ztime import get_today
 from .ztime import get_month
+
+
+# zalioss
+from .zalioss import OssConfig
+from .zalioss import OssFile

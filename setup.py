@@ -12,7 +12,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="zzpy",  # 这里是pip项目发布的名称
-    version="1.0.20200812.3",  # 版本号，数值大的会优先被pip
+    version="1.0.20200812.4",  # 版本号，数值大的会优先被pip
     keywords=["pip", "zzpy", "utils"],
     description="Python3 utilities",
     long_description="Python3 utilities",
@@ -26,5 +26,5 @@ setup(
     include_package_data=True,
     platforms="any",
     install_requires=["pymongo", "pymysql",
-                      "redis", "tqdm", "jsonlines", "pandas"]  # 这个项目需要的第三方库
+                      "redis", "tqdm", "jsonlines", "pandas", "oss2"]  # 这个项目需要的第三方库
 )
