@@ -93,6 +93,30 @@ def mysql_insert(client, sql):
     return cursor.lastrowid if res else 0
 
 
+def mysql_iter_table(client, table, where_condition="", offset_limit=""):
+    if where_condition:
+        if not where_condition.startswith("where") and not where_condition.startswith("WHERE"):
+            where_condition = "where "+where_condition
+    sql = f"select * from {table} {where_condition} {offset_limit}"
+    from pymysql.cursors import SSDictCursor
+    cursor = SSDictCursor(client)
+    cursor.execute(sql)
+    while True:
+        item = cursor.fetchone()
+        if not item:
+            cursor.close()
+            return
+        yield item
+
+
+def mysql_count_table(client, table, where_condition="", offset_limit=""):
+    if where_condition:
+        if not where_condition.startswith("where") and not where_condition.startswith("WHERE"):
+            where_condition = "where "+where_condition
+    sql = f"select count(*) from {table} {where_condition} {offset_limit}"
+    return mysql_query_one_value(client, sql)
+
+
 class ZMySQL:
     def __init__(self, url=None):
         self.client = mysql_connect(url=url)

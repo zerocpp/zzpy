@@ -45,6 +45,8 @@ from .zmysql import mysql_execute
 from .zmysql import mysql_insert
 from .zmysql import mysql_query
 from .zmysql import mysql_query_one_value
+from .zmysql import mysql_iter_table
+from .zmysql import mysql_count_table
 
 
 # zredis
