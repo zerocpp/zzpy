@@ -1,3 +1,15 @@
+import csv
+import openpyxl
+
+def trans_excel_to_csv(excel_path, csv_path):
+    with open(csv_path, mode="w", newline='') as fw:
+        writer = csv.writer(fw, delimiter=',')
+        wb = load_workbook(excel_path)
+        ws = wb.active
+        for row in ws.rows:
+            writer.writerow([c.value for c in row])
+            
+
 # def save_data_to_excel(data, excel_path, skip_error_row=False):
 #     import openpyxl
 #     wb = openpyxl.Workbook()

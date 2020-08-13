@@ -30,6 +30,7 @@ Python3 Utilities
 
 
 # release log
+* 1.0.20200812.6: excel->csv
 * 1.0.20200812.5: zalioss修复默认配置的bug
 * 1.0.20200812.4: +zalioss
 * 1.0.20200812.3: zjson.jsondumps cls参数默认值为DateEncoder
