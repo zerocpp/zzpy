@@ -85,3 +85,7 @@ from .ztime import get_month
 # zalioss
 from .zalioss import OssConfig
 from .zalioss import OssFile
+
+
+# zexcel
+from .zexcel import trans_excel_to_csv
