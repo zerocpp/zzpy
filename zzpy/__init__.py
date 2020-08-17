@@ -83,8 +83,9 @@ from .ztime import get_month
 
 
 # zalioss
+from .zalioss import AliOss
 from .zalioss import OssConfig
-from .zalioss import OssFile
+from .zalioss import oss_connect
 
 
 # zexcel
