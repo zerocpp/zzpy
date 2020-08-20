@@ -1,8 +1,8 @@
 rm -rf ./zzpy.egg-info
 rm -rf ./dist
 python setup.py sdist
-twine upload dist/*
-twine upload dist/* --repository-url https://nexus.wmqhealth.com/repository/pypi-hosted/
+twine upload dist/* --repository pypi
+twine upload dist/* --repository private
 rm -rf ./zzpy.egg-info
 rm -rf ./dist
 git add *
