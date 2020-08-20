@@ -19,7 +19,7 @@ class OssConfig:
         assert access_key_id
         access_key_secret = param.get("secret")
         assert access_key_secret
-        
+
         self.access_key_id = access_key_id
         self.access_key_secret = access_key_secret
         self.bucket = bucket
@@ -52,12 +52,20 @@ class AliOss:
             'x-oss-storage-class': oss2.BUCKET_STORAGE_CLASS_IA} if infrequent_access_flag else None
         return self.bucket.put_object_from_file(key, file_path)
 
+    def list(self, prefix):
+        next_marker = ""
+        while True:
+            result = self.bucket.list_objects(
+                prefix=prefix, max_keys=1_000, marker=next_marker)
+            for it in result.object_list:
+                yield it.key
+            next_marker = result.next_marker
+            if not next_marker:
+                break
+
     def delete(self, prefix):
-        key_list = [it.key for it in self.bucket.list_objects(
-            prefix=prefix).object_list]
-        if len(key_list) > 0:
-            return self.bucket.batch_delete_objects(key_list=key_list)
-        return None
+        for key in self.list():
+            self.bucket.delete_object(key=key)
 
     def exist(self, key):
         """判断文件是否已存在"""
