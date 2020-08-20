@@ -30,7 +30,7 @@ Python3 Utilities
 
 
 # release log
-* 1.0.2020082-7: 私有库推送
+* 1.0.20200820.8: 私有库推送
 * 1.0.20200817: 重构OssFile，支持oss_url格式，去掉OssFile，新增AliOss
 * 1.0.20200812.6: excel->csv
 * 1.0.20200812.5: zalioss修复默认配置的bug
