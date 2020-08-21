@@ -80,9 +80,6 @@ from .zjson import jsondumps
 from .ztime import get_date
 from .ztime import get_today
 from .ztime import get_month
-from .ztime import trans_datetime_to_java_timestamp
-from .ztime import get_begin_datetime
-from .ztime import get_end_datetime
 
 
 # zalioss

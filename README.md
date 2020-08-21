@@ -30,6 +30,7 @@ Python3 Utilities
 
 
 # release log
+* 1.0.20200821.4: 删除ztime无用方法
 * 1.0.20200821.3: ztime
 * 1.0.20200821:zalioss+url
 * 1.0.20200820.10:zalioss+list+delete
