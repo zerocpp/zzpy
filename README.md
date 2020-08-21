@@ -30,6 +30,7 @@ Python3 Utilities
 
 
 # release log
+* 1.0.20200821.2: ztime
 * 1.0.20200821:zalioss+url
 * 1.0.20200820.10:zalioss+list+delete
 * 1.0.20200820.8: 私有库推送
@@ -47,4 +48,3 @@ Python3 Utilities
 * 1.0.8: +get_today, +get_date
 * 1.0.7: jsondumps+params
 * 1.0.6: +jsondumps
-

@@ -11,3 +11,15 @@ def get_month(months=0, separator='-'):
     """获取月份，如2019-10"""
     import arrow
     return arrow.now().shift(months=months).format(f"YYYY{separator}MM")
+
+
+def trans_datetime_to_java_timestamp(dt):
+    return int(dt.timestamp()*1000)
+
+
+def get_begin_datetime(year, month, day):
+    return datetime.datetime(year=year, month=month, day=day, hour=0, minute=0, second=0, microsecond=0)
+
+
+def get_end_datetime(year, month, day):
+    return datetime.datetime(year=year, month=month, day=day, hour=23, minute=59, second=59, microsecond=999999)
