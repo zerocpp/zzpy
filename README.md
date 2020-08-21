@@ -30,7 +30,7 @@ Python3 Utilities
 
 
 # release log
-* 1.0.20200821.2: ztime
+* 1.0.20200821.3: ztime
 * 1.0.20200821:zalioss+url
 * 1.0.20200820.10:zalioss+list+delete
 * 1.0.20200820.8: 私有库推送
