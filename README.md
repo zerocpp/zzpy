@@ -30,6 +30,7 @@ Python3 Utilities
 
 
 # release log
+* 1.0.20200821:zalioss+url
 * 1.0.20200820.10:zalioss+list+delete
 * 1.0.20200820.8: 私有库推送
 * 1.0.20200817: 重构OssFile，支持oss_url格式，去掉OssFile，新增AliOss

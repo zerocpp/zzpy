@@ -38,8 +38,12 @@ def oss_connect(url=None):
 class AliOss:
     def __init__(self, url):
         config = OssConfig(url)
+        self.config = config
         self.bucket = oss2.Bucket(
             oss2.Auth(config.access_key_id, config.access_key_secret), config.endpoint, config.bucket)
+        
+    def url(self, key):
+        return f"{self.config.bucket}/{key}"
 
     def download(self, key, file_path):
         """下载文件"""
