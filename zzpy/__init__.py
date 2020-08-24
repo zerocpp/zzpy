@@ -35,7 +35,9 @@ from .zsys import windows_else
 
 
 # zmongo
-from .zmongo import MongoConfig, mongo_connect
+from .zmongo import MongoConfig
+from .zmongo import mongo_connect
+from .zmongo import mongo_collection
 
 
 # zmysql

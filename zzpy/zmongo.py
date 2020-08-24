@@ -47,6 +47,13 @@ def mongo_connect(url=None):
     return client
 
 
+def mongo_collection(client, collection):
+    col = client
+    for c in collection.split("."):
+        col = col[c]
+    return col
+
+
 def main():
     assert MongoConfig(url="mongodb://a:1") == MongoConfig(host="a", port=1)
 
