@@ -1,13 +1,27 @@
-def trans_excel_to_csv(excel_path, csv_path):
+def trans_excel_to_csv(excel_path, csv_path, encoding="utf8"):
     import csv
     import openpyxl
-    with open(csv_path, mode="w", newline='') as fw:
+    with open(csv_path, mode="w", newline='', encoding=encoding) as fw:
         writer = csv.writer(fw, delimiter=',')
         wb = openpyxl.load_workbook(excel_path)
         ws = wb.active
         for row in ws.rows:
             writer.writerow([c.value for c in row])
-            
+
+
+def read_csv(path):
+    for e in ("utf8", "gbk"):
+        try:
+            with open(path, e) as fr:
+                reader = csv.reader(fr)
+                head = next(reader)
+                for row in reader:
+                    yield dict(zip(head, row))
+            return
+        except:
+            pass
+    raise Exception(f"文件编码错误: {path}")
+
 
 # def save_data_to_excel(data, excel_path, skip_error_row=False):
 #     import openpyxl
