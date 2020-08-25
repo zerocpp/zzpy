@@ -30,6 +30,7 @@ Python3 Utilities
 
 
 # release log
+* 1.0.20200825: +zfile.download_file
 * 1.0.20200824: +zmongo.mongo_collection
 * 1.0.20200821.4: 删除ztime无用方法
 * 1.0.20200821.3: ztime

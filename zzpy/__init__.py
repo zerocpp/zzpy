@@ -23,6 +23,7 @@ from .zfile import init_dirs
 from .zfile import read_jsonline
 from .zfile import read_jsonline_with_progressbar
 from .zfile import normalize_path
+from .zfile import download_file
 
 
 # zdefinition

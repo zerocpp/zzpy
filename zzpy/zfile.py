@@ -176,3 +176,10 @@ def normalize_path(path):
         components = _split_path_list(components, split_pattern=split_pattern)
     prefix = "/" if path.startswith("/") else ""
     return prefix + os.path.join(*list(components))
+
+
+def download_file(url, path):
+    import requests
+    resp = requests.get(url)
+    with open(path, "wb") as fw:
+        fw.write(resp.content)
