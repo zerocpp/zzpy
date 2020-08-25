@@ -1,0 +1,1 @@
+pip3 install zzpy --upgrade -i https://pypi.org/simple
