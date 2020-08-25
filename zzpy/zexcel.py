@@ -12,7 +12,7 @@ def trans_excel_to_csv(excel_path, csv_path, encoding="utf8"):
 def read_csv(path):
     for e in ("utf8", "gbk"):
         try:
-            with open(path, e) as fr:
+            with open(path, encoding=e) as fr:
                 reader = csv.reader(fr)
                 head = next(reader)
                 for row in reader:
@@ -20,7 +20,8 @@ def read_csv(path):
             return
         except:
             pass
-    raise Exception(f"文件编码错误: {path}")
+    error_msg = f"文件编码错误: {path}"
+    raise Exception(error_msg)
 
 
 # def save_data_to_excel(data, excel_path, skip_error_row=False):
