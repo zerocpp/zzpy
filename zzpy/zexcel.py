@@ -5,6 +5,7 @@ def fix_gbk(object):
     """
     return object.replace('\xa0', '') if isinstance(object, str) else object
 
+
 def trans_excel_to_csv(excel_path, csv_path, encoding="utf8", gbk_fixing=True):
     import csv
     import openpyxl
@@ -28,6 +29,18 @@ def read_csv_dict(path):
                 for row in reader:
                     yield dict(zip(head, row))
             return
+        except:
+            pass
+    error_msg = f"文件编码错误: {path}"
+    raise Exception(error_msg)
+
+
+def read_csv_head(path):
+    for e in ("utf8", "gbk"):
+        try:
+            with open(path, encoding=e) as fr:
+                reader = csv.reader(fr)
+                return next(reader)
         except:
             pass
     error_msg = f"文件编码错误: {path}"
