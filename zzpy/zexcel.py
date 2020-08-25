@@ -21,6 +21,7 @@ def trans_excel_to_csv(excel_path, csv_path, encoding="utf8", gbk_fixing=True):
 
 
 def read_csv_dict(path):
+    import csv
     for e in ("utf8", "gbk"):
         try:
             with open(path, encoding=e) as fr:
@@ -36,6 +37,7 @@ def read_csv_dict(path):
 
 
 def read_csv_head(path):
+    import csv
     for e in ("utf8", "gbk"):
         try:
             with open(path, encoding=e) as fr:
@@ -48,6 +50,7 @@ def read_csv_head(path):
 
 
 def read_csv_rows(path):
+    import csv
     for e in ("utf8", "gbk"):
         try:
             with open(path, encoding=e) as fr:
