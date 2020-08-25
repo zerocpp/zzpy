@@ -1,4 +1,11 @@
-def trans_excel_to_csv(excel_path, csv_path, encoding="utf8"):
+def fix_gbk(object):
+    """
+    修复gbk编码问题
+    'gbk' codec can't encode character '\xa0' in position 202: illegal multibyte sequence
+    """
+    return object.replace('\xa0', '') if isinstance(object, str) else object
+
+def trans_excel_to_csv(excel_path, csv_path, encoding="utf8", gbk_fixing=True):
     import csv
     import openpyxl
     with open(csv_path, mode="w", newline='', encoding=encoding) as fw:
@@ -6,10 +13,13 @@ def trans_excel_to_csv(excel_path, csv_path, encoding="utf8"):
         wb = openpyxl.load_workbook(excel_path)
         ws = wb.active
         for row in ws.rows:
-            writer.writerow([c.value for c in row])
+            if gbk_fixing:
+                writer.writerow([fix_gbk(c.value) for c in row])
+            else:
+                writer.writerow([c.value for c in row])
 
 
-def read_csv(path):
+def read_csv_dict(path):
     for e in ("utf8", "gbk"):
         try:
             with open(path, encoding=e) as fr:
@@ -17,6 +27,19 @@ def read_csv(path):
                 head = next(reader)
                 for row in reader:
                     yield dict(zip(head, row))
+            return
+        except:
+            pass
+    error_msg = f"文件编码错误: {path}"
+    raise Exception(error_msg)
+
+
+def read_csv_rows(path):
+    for e in ("utf8", "gbk"):
+        try:
+            with open(path, encoding=e) as fr:
+                reader = csv.reader(fr)
+                yield from reader
             return
         except:
             pass

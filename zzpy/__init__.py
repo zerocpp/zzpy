@@ -93,4 +93,5 @@ from .zalioss import oss_connect
 
 # zexcel
 from .zexcel import trans_excel_to_csv
-from .zexcel import read_csv
+from .zexcel import read_csv_dict
+from .zexcel import read_csv_rows
