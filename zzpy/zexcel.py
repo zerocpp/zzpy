@@ -52,6 +52,7 @@ def read_csv_rows(path):
         try:
             with open(path, encoding=e) as fr:
                 reader = csv.reader(fr)
+                next(reader)
                 yield from reader
             return
         except:
