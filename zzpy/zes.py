@@ -23,14 +23,16 @@ class EsConfig:
         self.http_auth = (self.params["user"], self.params["password"])
 
 
-def es_connect(url=None):
+def es_connect(url=None, cert_path="es-cert"):
     if not url:
         from .zconfig import get_param
         url = get_param(__ES_URL_KEY)
     assert url
 
     from elasticsearch import Elasticsearch
+    import os
 
     conf = EsConfig(url)
-    client = Elasticsearch(hosts=conf.hosts, http_auth=conf.http_auth)
+    client = Elasticsearch(hosts=conf.hosts, http_auth=conf.http_auth, ca_certs=os.path.join(
+        cert_path, "client-ca.crt"), client_cert=os.path.join(cert_path, "client.crt"), client_key=os.path.join(cert_path, "client-key.crt"))
     return client
