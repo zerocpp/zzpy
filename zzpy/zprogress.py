@@ -1,4 +1,4 @@
-def pb(iterable, total=None, title='进度', min_interval=10, max_interval=60, ncols=80):
+def pb(iterable=None, total=None, title='进度', min_interval=10, max_interval=60, ncols=80):
     if not total:
         try:
             total = len(iterable)

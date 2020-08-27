@@ -41,20 +41,38 @@ class AliOss:
         self.config = config
         self.bucket = oss2.Bucket(
             oss2.Auth(config.access_key_id, config.access_key_secret), config.endpoint, config.bucket)
-        
+        self.show_progress = False
+        self.progress = None
+
     def url(self, key):
         return f"{self.config.bucket}/{key}"
 
-    def download(self, key, file_path):
+    def download(self, key, file_path, show_progress=False):
         """下载文件"""
-        return self.bucket.get_object_to_file(key, file_path)
+        self.show_progress = show_progress
+        if show_progress:
+            from .zprogress import pb
+            self.progress = pb(total=100)
+        else:
+            self.progress = None
+        return self.bucket.get_object_to_file(key, file_path, progress_callback=self.progress_callback)
 
-    def upload(self, key, file_path, infrequent_access_flag=True):
+    def progress_callback(self, done, total):
+        if self.show_progress and self.progress:
+            self.progress.update(int(done*100/total))
+
+    def upload(self, key, file_path, infrequent_access_flag=True, show_progress=False):
         """上传文件，infrequent_access_flag低频标识"""
         import oss2
         headers = {
             'x-oss-storage-class': oss2.BUCKET_STORAGE_CLASS_IA} if infrequent_access_flag else None
-        return self.bucket.put_object_from_file(key, file_path)
+        self.show_progress = show_progress
+        if show_progress:
+            from .zprogress import pb
+            self.progress = pb(total=100)
+        else:
+            self.progress = None
+        return self.bucket.put_object_from_file(key, file_path, progress_callback=self.progress_callback)
 
     def list(self, prefix):
         next_marker = ""
