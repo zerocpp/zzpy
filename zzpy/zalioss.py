@@ -52,7 +52,7 @@ class AliOss:
         self.show_progress = show_progress
         if show_progress:
             from .zprogress import pb
-            self.progress = pb(total=100)
+            self.progress = pb(total=100, title="下载")
         else:
             self.progress = None
         return self.bucket.get_object_to_file(key, file_path, progress_callback=self.progress_callback)
@@ -69,7 +69,7 @@ class AliOss:
         self.show_progress = show_progress
         if show_progress:
             from .zprogress import pb
-            self.progress = pb(total=100)
+            self.progress = pb(total=100, title="上传")
         else:
             self.progress = None
         return self.bucket.put_object_from_file(key, file_path, progress_callback=self.progress_callback)
