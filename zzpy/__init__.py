@@ -58,6 +58,11 @@ from .zredis import redis_decode
 from .zredis import ZRedis
 
 
+# zes
+from .zes import EsConfig
+from .zes import es_connect
+
+
 # zgeo
 from .zgeo import amap_geo_coding
 from .zgeo import gcj02_to_bd09
