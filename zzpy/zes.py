@@ -23,7 +23,7 @@ class EsConfig:
         self.http_auth = (self.params["user"], self.params["password"])
 
 
-def es_connect(url=None, cert_path="es-cert"):
+def es_connect(url=None, cert_path="/es-cert"):
     if not url:
         from .zconfig import get_param
         url = get_param(__ES_URL_KEY)
