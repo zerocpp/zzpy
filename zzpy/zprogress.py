@@ -4,11 +4,11 @@ def pb(iterable=None, total=None, title=None, min_interval=10, max_interval=60, 
             total = len(iterable)
         except Exception as ex:
             pass
-        
+
     from tqdm import tqdm
     return tqdm(iterable,
                 total=total,
-                desc=f'\n{title}' if title else '\n进度',
+                desc=title if title else '进度',
                 mininterval=min_interval,
                 maxinterval=max_interval,
                 ncols=ncols)
