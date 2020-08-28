@@ -1,4 +1,4 @@
-def pb(iterable=None, total=None, title='进度', min_interval=10, max_interval=60, ncols=80):
+def pb(iterable=None, total=None, title=None, min_interval=10, max_interval=60, ncols=80):
     if not total:
         try:
             total = len(iterable)
@@ -8,7 +8,7 @@ def pb(iterable=None, total=None, title='进度', min_interval=10, max_interval=
     from tqdm import tqdm
     return tqdm(iterable,
                 total=total,
-                desc=f'\n{title}',
+                desc=f'\n{title}' if title else '\n进度',
                 mininterval=min_interval,
                 maxinterval=max_interval,
                 ncols=ncols)
