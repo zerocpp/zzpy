@@ -150,11 +150,12 @@ def mysql_download_table(client, path, table, fields=None, where_condition=None,
     import jsonlines
     import json
     from .zjson import jsondumps
+    from .zprogress import pb
 
     with jsonlines.open(path, mode="w") as fw:
         iter = mysql_iter_table(client, table=table, fields=fields,
                                 where_condition=where_condition, offset_limit=offset_limit)
         total = mysql_count_table(
             client, table=table, where_condition=where_condition, offset_limit=offset_limit)
-        for item in z.pb(iter, total=total, title=progress_title):
+        for item in pb(iter, total=total, title=progress_title):
             fw.write(json.loads(jsondumps(item)))
