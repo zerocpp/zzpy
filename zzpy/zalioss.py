@@ -59,7 +59,8 @@ class AliOss:
 
     def progress_callback(self, done, total):
         if self.show_progress and self.progress:
-            self.progress.update(int(done*100/total))
+            self.progress.n=done
+            self.progress.refresh()
 
     def upload(self, key, file_path, infrequent_access_flag=True, show_progress=False):
         """上传文件，infrequent_access_flag低频标识"""

@@ -159,3 +159,31 @@ def mysql_download_table(client, path, table, fields=None, where_condition=None,
             client, table=table, where_condition=where_condition, offset_limit=offset_limit)
         for item in pb(iter, total=total, title=progress_title):
             fw.write(json.loads(jsondumps(item)))
+
+
+def mysql_download_sql(client, path, sql, count_sql=None, progress_title=None):
+    import jsonlines
+    import json
+    from .zjson import jsondumps
+    from .zprogress import pb
+
+    total = None
+    if count_sql:
+        total = mysql_query_one_value(client, count_sql)
+
+    progress = None
+    if progress_title:
+        progress = pb(iterable=None, total=total, title=progress_title)
+
+    with jsonlines.open(path, mode="w") as fw:
+        from pymysql.cursors import SSDictCursor
+        cursor = SSDictCursor(client)
+        cursor.execute(sql)
+        while True:
+            item = cursor.fetchone()
+            if not item:
+                cursor.close()
+                return
+            fw.write(json.loads(jsondumps(item)))
+            if progress:
+                progress.update()
