@@ -45,7 +45,7 @@ class AliOss:
         self.progress = None
 
     def url(self, key):
-        return f"{self.config.bucket}/{key}"
+        return f"oss://{self.config.bucket}/{key}"
 
     def download(self, key, file_path, show_progress=False):
         """下载文件"""

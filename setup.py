@@ -12,7 +12,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="zzpy",  # 这里是pip项目发布的名称
-    version="1.0.20200829.2",  # 版本号，数值大的会优先被pip
+    version="1.0.20200829.3",  # 版本号，数值大的会优先被pip
     keywords=["pip", "zzpy", "utils"],
     description="Python3 utilities",
     long_description="Python3 utilities",
