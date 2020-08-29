@@ -51,6 +51,7 @@ from .zmysql import mysql_query_one_value
 from .zmysql import mysql_iter_table
 from .zmysql import mysql_count_table
 from .zmysql import mysql_download_table
+from .zmysql import mysql_download_sql
 
 
 # zredis
