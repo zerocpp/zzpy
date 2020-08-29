@@ -185,5 +185,5 @@ def mysql_download_sql(client, path, sql, count_sql=None, progress_title=None):
                 cursor.close()
                 return
             fw.write(json.loads(jsondumps(item)))
-            if progress:
+            if progress is not None:
                 progress.update()
