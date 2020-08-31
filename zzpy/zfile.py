@@ -156,9 +156,9 @@ def read_jsonline(file_path):
 def read_jsonline_with_progressbar(file_path, title=None):
     """从jsonline文件按行读取，带进度条"""
     import jsonlines
-    from zzpy import pb
+    from .zprogress import pb
     with open(file_path, encoding='utf8') as fr:
-        yield from pb(jsonlines.Reader(fr), total=get_file_line_count(file_path), title=title)
+        yield from pb(jsonlines.Reader(fr), total=get_file_line_count(file_path), title=title if title else "进度")
 
 
 def _split_path_list(path_list, split_pattern):
