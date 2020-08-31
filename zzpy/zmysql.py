@@ -155,10 +155,14 @@ def mysql_download_table(client, path, table, fields=None, where_condition=None,
     with jsonlines.open(path, mode="w") as fw:
         iter = mysql_iter_table(client, table=table, fields=fields,
                                 where_condition=where_condition, offset_limit=offset_limit)
-        total = mysql_count_table(
-            client, table=table, where_condition=where_condition, offset_limit=offset_limit)
-        for item in pb(iter, total=total, title=progress_title):
-            fw.write(json.loads(jsondumps(item)))
+        if progress_title:
+            total = mysql_count_table(
+                client, table=table, where_condition=where_condition, offset_limit=offset_limit)
+            for item in pb(iter, total=total, title=progress_title):
+                fw.write(json.loads(jsondumps(item)))
+        else:
+            for item in iter:
+                fw.write(json.loads(jsondumps(item)))
 
 
 def mysql_download_sql(client, path, sql, count_sql=None, progress_title=None):
