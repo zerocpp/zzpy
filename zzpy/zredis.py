@@ -1,5 +1,5 @@
 __REDIS_URL_KEY = "REDIS_URL"
-
+from deprecated import deprecated
 
 def redis_decode(value):
     if isinstance(value, bytes):
@@ -23,6 +23,7 @@ class ZRedis:
         import redis
         self.client = redis.from_url(url)
 
+    @deprecated(version="1.1.3", reason="unsafe")
     def bpop_log(self, key, wait_log=None):
         if self.llen(key) <= 0:
             if wait_log:
@@ -69,9 +70,11 @@ class ZRedis:
     def llen(self, key):
         return self.client.llen(key)
 
+    @deprecated(version="1.1.3", reason="unsafe")
     def blpop(self, keys, timeout=0):
         return redis_decode(self.client.blpop(keys, timeout))[-1]
 
+    @deprecated(version="1.1.3", reason="unsafe")
     def brpoplpush(self, src, dst, timeout=0):
         return redis_decode(self.client.brpoplpush(src, dst, timeout))
 
@@ -81,6 +84,7 @@ class ZRedis:
     def rpop(self, key):
         return redis_decode(self.client.rpop(key))
 
+    @deprecated(version="1.1.3", reason="unsafe")
     def brpop(self, keys, timeout=0):
         return redis_decode(self.client.brpop(keys, timeout))[-1]
 
