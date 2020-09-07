@@ -30,7 +30,7 @@ Python3 Utilities
 
 
 # release log
-* 1.1.0: +zfunction.list_or_args; +zredis.blpop; +zredis.brpop;
+* 1.1.6: +zfunction.list_or_args; +zredis.publish/listen; zredis.brpop/blpop+safe
 * 1.0.20200827: +ES处理zes
 * 1.0.20200825: +zfile.download_file
 * 1.0.20200824: +zmongo.mongo_collection

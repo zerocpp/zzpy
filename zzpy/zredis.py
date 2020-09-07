@@ -32,12 +32,11 @@ class ZRedis:
         import redis
         self.client = redis.from_url(url)
 
-    @deprecated(version="1.1.3", reason="unsafe")
-    def bpop_log(self, key, wait_log=None):
+    def bpop_log(self, key, wait_log=None, retry_interval=60):
         if self.llen(key) <= 0:
             if wait_log:
                 print(wait_log)
-        return self.blpop(key)
+        return retry_func(self.blpop(key), retry_interval=retry_interval)
 
     def get(self, key):
         return redis_decode(self.client.get(key))
@@ -108,12 +107,35 @@ class ZRedis:
     def rpush(self, key, *values):
         return self.client.rpush(key, *values)
 
+    def publish(self, channel, message):
+        return self.client.publish(channel, message)
+
+    def listen(self, channel, filter_type=None, json_loads=False):
+        if filter_type is None:
+            filter_type = "message"
+        while True:
+            try:
+                p = self.client.pubsub()
+                p.subscribe(channel)
+                for i in p.listen():
+                    if i.get("type") == filter_type:
+                        data = redis_decode(i.get("data"))
+                        if json_loads:
+                            import json
+                            data = json.loads(data)
+                        yield data
+                p.close()
+            except:
+                pass
+
 
 def main():
     client = redis_connect("redis://localhost:6379/0")
-    while True:
-        r = client.brpop("test")
-        print(r)
+    for i in client.listen("code", json_loads=True):
+        print(i)
+    # while True:
+    #     r = client.brpop("test")
+    #     print(r)
 
 
 if __name__ == "__main__":
