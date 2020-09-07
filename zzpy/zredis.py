@@ -106,7 +106,7 @@ class ZRedis:
 def redis_blpop(client, keys, timeout=0, retry_interval=60):
     while True:
         try:
-            return redis_decode(client.blpop(keys, timeout=timeout))
+            return redis_decode(client.blpop(keys, timeout=timeout))[-1]
         except:
             import time
             time.sleep(retry_interval)
@@ -115,7 +115,7 @@ def redis_blpop(client, keys, timeout=0, retry_interval=60):
 def redis_brpop(client, keys, timeout=0, retry_interval=60):
     while True:
         try:
-            return redis_decode(client.brpop(keys, timeout=timeout))
+            return redis_decode(client.brpop(keys, timeout=timeout))[-1]
         except:
             import time
             time.sleep(retry_interval)
