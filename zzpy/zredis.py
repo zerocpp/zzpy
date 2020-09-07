@@ -1,5 +1,14 @@
 __REDIS_URL_KEY = "REDIS_URL"
-from deprecated import deprecated
+
+
+def retry_func(func, retry_interval=60):
+    while True:
+        try:
+            return func()
+        except:
+            import time
+            time.sleep(retry_interval)
+
 
 def redis_decode(value):
     if isinstance(value, bytes):
@@ -70,23 +79,20 @@ class ZRedis:
     def llen(self, key):
         return self.client.llen(key)
 
-    @deprecated(version="1.1.3", reason="unsafe")
-    def blpop(self, keys, timeout=0):
-        return redis_decode(self.client.blpop(keys, timeout))[-1]
+    def brpop(self, keys, timeout=0, retry_interval=60):
+        return retry_func(lambda: redis_decode(self.client.brpop(keys, timeout))[-1], retry_interval=retry_interval)
 
-    @deprecated(version="1.1.3", reason="unsafe")
-    def brpoplpush(self, src, dst, timeout=0):
-        return redis_decode(self.client.brpoplpush(src, dst, timeout))
+    def blpop(self, keys, timeout=0, retry_interval=60):
+        return retry_func(lambda: redis_decode(self.client.blpop(keys, timeout))[-1], retry_interval=retry_interval)
+
+    def brpoplpush(self, src, dst, timeout=0, retry_interval=60):
+        return retry_func(lambda: redis_decode(self.client.brpoplpush(src, dst, timeout)), retry_interval=retry_interval)
 
     def lpop(self, key):
         return redis_decode(self.client.lpop(key))
 
     def rpop(self, key):
         return redis_decode(self.client.rpop(key))
-
-    @deprecated(version="1.1.3", reason="unsafe")
-    def brpop(self, keys, timeout=0):
-        return redis_decode(self.client.brpop(keys, timeout))[-1]
 
     def lall(self, key):
         return [redis_decode(it) for it in self.client.lrange(key, 0, -1)]
@@ -103,28 +109,12 @@ class ZRedis:
         return self.client.rpush(key, *values)
 
 
-def redis_blpop(client, keys, timeout=0, retry_interval=60):
+def main():
+    client = redis_connect("redis://localhost:6379/0")
     while True:
-        try:
-            return redis_decode(client.blpop(keys, timeout=timeout))[-1]
-        except:
-            import time
-            time.sleep(retry_interval)
+        r = client.brpop("test")
+        print(r)
 
 
-def redis_brpop(client, keys, timeout=0, retry_interval=60):
-    while True:
-        try:
-            return redis_decode(client.brpop(keys, timeout=timeout))[-1]
-        except:
-            import time
-            time.sleep(retry_interval)
-
-
-def redis_brpoplpush(client, src, dst, timeout=0, retry_interval=60):
-    while True:
-        try:
-            return redis_decode(client.brpoplpush(src, dst, timeout))
-        except:
-            import time
-            time.sleep(retry_interval)
+if __name__ == "__main__":
+    main()
