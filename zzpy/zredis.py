@@ -127,16 +127,3 @@ class ZRedis:
                 p.close()
             except:
                 pass
-
-
-def main():
-    client = redis_connect("redis://localhost:6379/0")
-    for i in client.listen("code", json_loads=True):
-        print(i)
-    # while True:
-    #     r = client.brpop("test")
-    #     print(r)
-
-
-if __name__ == "__main__":
-    main()
