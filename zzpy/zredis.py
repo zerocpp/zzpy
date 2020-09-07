@@ -97,3 +97,21 @@ class ZRedis:
 
     def rpush(self, key, *values):
         return self.client.rpush(key, *values)
+
+
+def redis_blpop(client, keys, timeout=0, retry_interval=60):
+    while True:
+        try:
+            return client.blpop(keys, timeout=timeout)
+        except:
+            import time
+            time.sleep(retry_interval)
+
+
+def redis_brpop(client, keys, timeout=0, retry_interval=60):
+    while True:
+        try:
+            return client.brpop(keys, timeout=timeout)
+        except:
+            import time
+            time.sleep(retry_interval)

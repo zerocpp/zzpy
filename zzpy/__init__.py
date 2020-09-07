@@ -58,6 +58,8 @@ from .zmysql import mysql_download_sql
 from .zredis import redis_connect
 from .zredis import redis_decode
 from .zredis import ZRedis
+from .zredis import redis_blpop
+from .zredis import redis_brpop
 
 
 # zes
@@ -103,3 +105,7 @@ from .zexcel import trans_excel_to_csv
 from .zexcel import read_csv_dict
 from .zexcel import read_csv_rows
 from .zexcel import read_csv_head
+
+
+# zfunction
+from .zfunction import list_or_args
