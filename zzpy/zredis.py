@@ -117,7 +117,7 @@ def redis_brpop(client, keys, timeout=0, retry_interval=60):
             time.sleep(retry_interval)
 
 
-def brpoplpush(client, src, dst, timeout=0, retry_interval=60):
+def redis_brpoplpush(client, src, dst, timeout=0, retry_interval=60):
     while True:
         try:
             return redis_decode(client.brpoplpush(src, dst, timeout))

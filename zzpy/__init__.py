@@ -60,7 +60,7 @@ from .zredis import redis_decode
 from .zredis import ZRedis
 from .zredis import redis_blpop
 from .zredis import redis_brpop
-
+from .zredis import redis_brpoplpush
 
 # zes
 from .zes import EsConfig
