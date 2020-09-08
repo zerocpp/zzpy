@@ -103,6 +103,11 @@ from .zexcel import trans_excel_to_csv
 from .zexcel import read_csv_dict
 from .zexcel import read_csv_rows
 from .zexcel import read_csv_head
+from .zexcel import open_excel
+from .zexcel import get_excel_sheet
+from .zexcel import read_excel_head
+from .zexcel import read_excel_rows
+from .zexcel import read_excel_items
 
 
 # zfunction

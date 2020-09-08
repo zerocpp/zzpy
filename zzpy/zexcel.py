@@ -64,6 +64,36 @@ def read_csv_rows(path):
     raise Exception(error_msg)
 
 
+def open_excel(path):
+    import xlrd
+    return xlrd.open_workbook(path)
+
+
+def get_excel_sheet(excel, sheet_name=None):
+    sheet_names = excel.sheet_names()
+    if sheet_name is None:
+        sheet_name = sheet_names[0]
+    assert sheet_name in sheet_names
+    return excel.sheet_by_name(sheet_name)
+
+
+def read_excel_head(excel, sheet_name=None):
+    st = get_excel_sheet(excel, sheet_name=sheet_name)
+    return st.row_values(0)
+
+
+def read_excel_rows(excel, sheet_name=None):
+    st = get_excel_sheet(excel, sheet_name=sheet_name)
+    nrows = st.nrows
+    yield from (st.row_values(i) for i in range(1, nrows))
+
+
+def read_excel_items(excel, sheet_name=None):
+    st = get_excel_sheet(excel, sheet_name=sheet_name)
+    head = read_excel_head(excel, sheet_name=sheet_name)
+    nrows = st.nrows
+    yield from (dict(zip(head, st.row_values(i))) for i in range(1, nrows))
+
 # def save_data_to_excel(data, excel_path, skip_error_row=False):
 #     import openpyxl
 #     wb = openpyxl.Workbook()
