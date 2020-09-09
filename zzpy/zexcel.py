@@ -20,9 +20,14 @@ def trans_excel_to_csv(excel_path, csv_path, encoding="utf8", gbk_fixing=True):
                 writer.writerow([c.value for c in row])
 
 
-def read_csv_dict(path):
+def read_csv_dict(path, encoding=None):
     import csv
-    for e in ("utf8", "gbk"):
+    unknown_encoding = "unknown"
+    encodings = ([encoding] if encoding else ["utf8", "utf-8-sig", "gbk"]) + [unknown_encoding]
+    for e in encodings:
+        if e == unknown_encoding:
+            error_msg=f"文件编码错误: {path}"
+            raise Exception(error_msg)
         try:
             with open(path, encoding=e) as fr:
                 reader = csv.reader(fr)
@@ -32,8 +37,6 @@ def read_csv_dict(path):
             return
         except:
             pass
-    error_msg = f"文件编码错误: {path}"
-    raise Exception(error_msg)
 
 
 def read_csv_head(path, encoding=None):
@@ -52,9 +55,14 @@ def read_csv_head(path, encoding=None):
             pass
 
 
-def read_csv_rows(path):
+def read_csv_rows(path, encoding=None):
     import csv
-    for e in ("utf8", "gbk"):
+    unknown_encoding = "unknown"
+    encodings = ([encoding] if encoding else ["utf8", "utf-8-sig", "gbk"]) + [unknown_encoding]
+    for e in encodings:
+        if e == unknown_encoding:
+            error_msg=f"文件编码错误: {path}"
+            raise Exception(error_msg)
         try:
             with open(path, encoding = e) as fr:
                 reader=csv.reader(fr)
