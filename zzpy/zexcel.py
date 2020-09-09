@@ -36,31 +36,34 @@ def read_csv_dict(path):
     raise Exception(error_msg)
 
 
-def read_csv_head(path):
+def read_csv_head(path, encoding=None):
     import csv
-    for e in ("utf8", "gbk"):
+    unknown_encoding = "unknown"
+    encodings = ([encoding] if encoding else ["utf8", "gbk"]) + [unknown_encoding]
+    for e in encodings:
+        if e == unknown_encoding:
+            error_msg=f"文件编码错误: {path}"
+            raise Exception(error_msg)
         try:
-            with open(path, encoding=e) as fr:
-                reader = csv.reader(fr)
+            with open(path, encoding = e) as fr:
+                reader=csv.reader(fr)
                 return next(reader)
         except:
             pass
-    error_msg = f"文件编码错误: {path}"
-    raise Exception(error_msg)
 
 
 def read_csv_rows(path):
     import csv
     for e in ("utf8", "gbk"):
         try:
-            with open(path, encoding=e) as fr:
-                reader = csv.reader(fr)
+            with open(path, encoding = e) as fr:
+                reader=csv.reader(fr)
                 next(reader)
                 yield from reader
             return
         except:
             pass
-    error_msg = f"文件编码错误: {path}"
+    error_msg=f"文件编码错误: {path}"
     raise Exception(error_msg)
 
 
@@ -69,29 +72,29 @@ def open_excel(path):
     return xlrd.open_workbook(path)
 
 
-def get_excel_sheet(excel, sheet_name=None):
-    sheet_names = excel.sheet_names()
+def get_excel_sheet(excel, sheet_name = None):
+    sheet_names=excel.sheet_names()
     if sheet_name is None:
-        sheet_name = sheet_names[0]
+        sheet_name=sheet_names[0]
     assert sheet_name in sheet_names
     return excel.sheet_by_name(sheet_name)
 
 
-def read_excel_head(excel, sheet_name=None):
-    st = get_excel_sheet(excel, sheet_name=sheet_name)
+def read_excel_head(excel, sheet_name = None):
+    st=get_excel_sheet(excel, sheet_name = sheet_name)
     return st.row_values(0)
 
 
-def read_excel_rows(excel, sheet_name=None):
-    st = get_excel_sheet(excel, sheet_name=sheet_name)
-    nrows = st.nrows
+def read_excel_rows(excel, sheet_name = None):
+    st=get_excel_sheet(excel, sheet_name = sheet_name)
+    nrows=st.nrows
     yield from (st.row_values(i) for i in range(1, nrows))
 
 
-def read_excel_items(excel, sheet_name=None):
-    st = get_excel_sheet(excel, sheet_name=sheet_name)
-    head = read_excel_head(excel, sheet_name=sheet_name)
-    nrows = st.nrows
+def read_excel_items(excel, sheet_name = None):
+    st=get_excel_sheet(excel, sheet_name = sheet_name)
+    head=read_excel_head(excel, sheet_name = sheet_name)
+    nrows=st.nrows
     yield from (dict(zip(head, st.row_values(i))) for i in range(1, nrows))
 
 # def save_data_to_excel(data, excel_path, skip_error_row=False):
