@@ -71,8 +71,6 @@ def read_csv_rows(path, encoding=None):
             return
         except:
             pass
-    error_msg=f"文件编码错误: {path}"
-    raise Exception(error_msg)
 
 
 def open_excel(path):
