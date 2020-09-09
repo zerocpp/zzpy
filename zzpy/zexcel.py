@@ -39,7 +39,7 @@ def read_csv_dict(path):
 def read_csv_head(path, encoding=None):
     import csv
     unknown_encoding = "unknown"
-    encodings = ([encoding] if encoding else ["utf8", "gbk"]) + [unknown_encoding]
+    encodings = ([encoding] if encoding else ["utf8", "utf-8-sig", "gbk"]) + [unknown_encoding]
     for e in encodings:
         if e == unknown_encoding:
             error_msg=f"文件编码错误: {path}"
