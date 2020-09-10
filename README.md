@@ -30,6 +30,7 @@ Python3 Utilities
 
 
 # release log
+* 1.1.16: +dict_extract
 * 1.1.9: excel
 * 1.1.6: +zfunction.list_or_args; +zredis.publish/listen; zredis.brpop/blpop+safe
 * 1.0.20200827: +ES处理zes

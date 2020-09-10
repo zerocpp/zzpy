@@ -112,3 +112,7 @@ from .zexcel import read_excel_items
 
 # zfunction
 from .zfunction import list_or_args
+
+
+# zdict
+from .zdict import dict_extract
