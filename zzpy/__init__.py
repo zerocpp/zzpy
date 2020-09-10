@@ -116,3 +116,9 @@ from .zfunction import list_or_args
 
 # zdict
 from .zdict import dict_extract
+
+
+# zarea_matcher
+from .zarea_matcher import load_matcher
+from .zarea_matcher import load_matchers
+from .zarea_matcher import match_area

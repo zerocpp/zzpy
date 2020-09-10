@@ -1,0 +1,2 @@
+{"pattern_std": ".*|.*|.*", "pattern_3rd": "{province}|{city}|.*"}
+{"pattern_std": "重庆市|.*|.*", "pattern_3rd": "重庆市|.*|.*"}
