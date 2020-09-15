@@ -31,6 +31,9 @@ class ZRedis:
     def __init__(self, url):
         import redis
         self.client = redis.from_url(url)
+        
+    def ttl(self, key):
+        return self.client.ttl(key)
 
     def bpop_log(self, key, wait_log=None, retry_interval=60):
         if self.llen(key) <= 0:
