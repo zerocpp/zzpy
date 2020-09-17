@@ -44,8 +44,30 @@ class AliOss:
         self.show_progress = False
         self.progress = None
 
-    def url(self, key):
+    def to_url(self, key):
+        """key -> url"""
+        if key.startswith("oss://"):
+            return key
         return f"oss://{self.config.bucket}/{key}"
+
+    def url(self, key):
+        """key -> url"""
+        return self.to_url(key)
+
+    def to_key(self, url):
+        """url -> key"""
+        if not url.startswith("oss://"):
+            return url
+        key = url[len("oss://"):]
+        key = "/".join(key.split("/")[1:])
+        return key
+
+    def copy_object(self, source_key, target_key, headers=None, params=None, source_bucket_name=None):
+        """拷贝文件"""
+        if source_bucket_name is None:
+            source_bucket_name = self.config.bucket
+        return self.bucket.copy_object(source_bucket_name=source_bucket_name,
+                                source_key=source_key, target_key=target_key, headers=headers, params=params)
 
     def download(self, key, file_path, show_progress=False):
         """下载文件"""
@@ -59,7 +81,7 @@ class AliOss:
 
     def progress_callback(self, done, total):
         if self.show_progress and self.progress:
-            self.progress.n=done
+            self.progress.n = done
             self.progress.refresh()
 
     def upload(self, key, file_path, infrequent_access_flag=True, show_progress=False):
