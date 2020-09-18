@@ -109,7 +109,7 @@ class AliOss:
                 break
 
     def delete(self, prefix):
-        for key in self.list():
+        for key in self.list(prefix=prefix):
             self.bucket.delete_object(key=key)
 
     def exist(self, key):
