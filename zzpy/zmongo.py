@@ -54,6 +54,33 @@ def mongo_collection(client, collection):
     return col
 
 
+def mongo_count_collection(client, collection, where_condition=None):
+    if where_condition is None:
+        where_condition = {}
+    return mongo_collection(client, collection).count_documents(where_condition)
+
+
+def mongo_download_collection(client, collection, path, where_condition=None, progress_title=None):
+    import jsonlines
+    import json
+    from .zjson import jsondumps
+    from .zprogress import pb
+
+    if where_condition is None:
+        where_condition = {}
+
+    with jsonlines.open(path, mode="w") as fw:
+        iter = mongo_collection(client, collection).find(where_condition)
+        if progress_title:
+            total = mongo_count_collection(
+                client, collection=collection, where_condition=where_condition)
+            for item in pb(iter, total=total, title=progress_title):
+                fw.write(json.loads(jsondumps(item)))
+        else:
+            for item in iter:
+                fw.write(json.loads(jsondumps(item)))
+
+
 def main():
     assert MongoConfig(url="mongodb://a:1") == MongoConfig(host="a", port=1)
 

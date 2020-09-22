@@ -117,15 +117,13 @@ def mysql_iter_table(client, table, fields=None, where_condition=None, offset_li
         yield item
 
 
-def mysql_count_table(client, table, where_condition=None, offset_limit=None):
+def mysql_count_table(client, table, where_condition=None):
     if where_condition:
         if not where_condition.startswith("where") and not where_condition.startswith("WHERE"):
             where_condition = "where "+where_condition
     else:
         where_condition = ""
-    if not offset_limit:
-        offset_limit = ""
-    sql = f"select count(*) from {table} {where_condition} {offset_limit}"
+    sql = f"select count(*) from {table} {where_condition}"
     return mysql_query_one_value(client, sql)
 
 
@@ -157,7 +155,7 @@ def mysql_download_table(client, path, table, fields=None, where_condition=None,
                                 where_condition=where_condition, offset_limit=offset_limit)
         if progress_title:
             total = mysql_count_table(
-                client, table=table, where_condition=where_condition, offset_limit=offset_limit)
+                client, table=table, where_condition=where_condition)
             for item in pb(iter, total=total, title=progress_title):
                 fw.write(json.loads(jsondumps(item)))
         else:
