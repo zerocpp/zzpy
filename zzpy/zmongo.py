@@ -60,7 +60,7 @@ def mongo_count_collection(client, collection, where_condition=None):
     return mongo_collection(client, collection).count_documents(where_condition)
 
 
-def mongo_download_collection(client, collection, path, where_condition=None, progress_title=None):
+def mongo_download_collection(client, path, collection, where_condition=None, progress_title=None):
     import jsonlines
     import json
     from .zjson import jsondumps
