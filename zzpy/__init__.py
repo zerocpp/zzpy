@@ -118,6 +118,7 @@ from .zfunction import list_or_args
 
 # zdict
 from .zdict import dict_extract
+from .zdict import dict_recursive_get
 
 
 # zarea_matcher
