@@ -65,7 +65,7 @@ def mysql_connect(url=None, autocommit=True):
     conf = MySQLConfig(url)
 
     client = pymysql.Connect(
-        host=conf.host, port=conf.port, database=conf.database, user=conf.user, password=conf.password, connect_timeout=31536000)
+        host=conf.host, port=conf.port, database=conf.database, user=conf.user, password=conf.password, connect_timeout=10_000_000)
     client.autocommit(autocommit)
     return client
 
