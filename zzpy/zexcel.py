@@ -20,6 +20,16 @@ def trans_excel_to_csv(excel_path, csv_path, encoding="utf8", gbk_fixing=True):
                 writer.writerow([c.value for c in row])
 
 
+def trans_csv_to_excel(csv_path, excel_path):
+    import openpyxl
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.append(read_csv_head(csv_path))
+    for row in read_csv_rows(csv_path):
+        ws.append(row)
+    wb.save(excel_path)
+
+
 def read_csv_dict(path, encoding=None):
     import csv
     unknown_encoding = "unknown"
