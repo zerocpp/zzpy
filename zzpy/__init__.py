@@ -111,7 +111,8 @@ from .zexcel import get_excel_sheet
 from .zexcel import read_excel_head
 from .zexcel import read_excel_rows
 from .zexcel import read_excel_items
-from .zexcel import save_excel
+from .zexcel import save_excel_rows
+from .zexcel import save_excel_items
 
 
 # zfunction

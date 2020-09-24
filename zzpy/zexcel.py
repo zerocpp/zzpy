@@ -88,11 +88,24 @@ def open_excel(path):
     return xlrd.open_workbook(path)
 
 
-def save_excel(rows, path):
+def save_excel_rows(rows, path):
     import openpyxl
     wb = openpyxl.Workbook()
     ws = wb.active
-    ws.append(rows)
+    for row in rows:
+        ws.append(row)
+    ws.save(path)
+
+
+def save_excel_items(items, path):
+    import openpyxl
+    head = list(items.keys())
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.append(head)
+    for item in items:
+        row = [item.get(k, "") for k in head]
+        ws.append(row)
     ws.save(path)
 
 
