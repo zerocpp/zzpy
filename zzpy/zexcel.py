@@ -88,6 +88,14 @@ def open_excel(path):
     return xlrd.open_workbook(path)
 
 
+def save_excel(rows, path):
+    import openpyxl
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.append(rows)
+    ws.save(path)
+
+
 def get_excel_sheet(excel, sheet_name = None):
     sheet_names=excel.sheet_names()
     if sheet_name is None:
