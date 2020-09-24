@@ -97,9 +97,10 @@ def save_excel_rows(rows, path):
     ws.save(path)
 
 
-def save_excel_items(items, path):
+def save_excel_items(items, path, head=None):
     import openpyxl
-    head = list(items[0].keys())
+    if not head:
+        head = list(items[0].keys())
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.append(head)
