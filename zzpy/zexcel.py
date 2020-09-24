@@ -107,7 +107,7 @@ def save_excel_items(items, path, head=None):
     for item in items:
         row = [item.get(k, "") for k in head]
         ws.append(row)
-    ws.save(path)
+    wb.save(path)
 
 
 def get_excel_sheet(excel, sheet_name = None):
