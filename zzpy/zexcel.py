@@ -94,7 +94,7 @@ def save_excel_rows(rows, path):
     ws = wb.active
     for row in rows:
         ws.append(row)
-    ws.save(path)
+    wb.save(path)
 
 
 def save_excel_items(items, path, head=None):
