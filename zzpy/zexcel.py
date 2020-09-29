@@ -134,6 +134,20 @@ def read_excel_items(excel, sheet_name = None):
     head=read_excel_head(excel, sheet_name = sheet_name)
     nrows=st.nrows
     yield from (dict(zip(head, st.row_values(i))) for i in range(1, nrows))
+    
+    
+def save_items_to_csv(items, path, head=None):
+    import csv
+    with open(path, mode="w", encoding="utf-8", newline="") as fw:
+        writer = csv.writer(fw)
+        if head is None:
+            if len(items) > 0:
+                head = list(items[0].keys())
+        if head:
+            writer.writerow(head)
+        for it in items:
+            writer.writerow([it.get(k, "") for k in head])
+
 
 # def save_data_to_excel(data, excel_path, skip_error_row=False):
 #     import openpyxl
