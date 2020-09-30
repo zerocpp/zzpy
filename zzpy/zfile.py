@@ -114,9 +114,12 @@ def write_file(content, file_path, encoding=None):
     import os
     if encoding is None:
         encoding = "utf8"
-    dir_path = os.path.dirname(file_path)
-    if not os.path.exists(dir_path):
-        create_dir(dir_path)
+    try:
+        dir_path = os.path.dirname(file_path)
+        if not os.path.exists(dir_path):
+            create_dir(dir_path)
+    except:
+        pass
     with open(file_path, mode="w", encoding=encoding) as fw:
         fw.write(content)
 

@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="zzpy",
-    version="1.1.36",
+    version="1.1.37",
     keywords=["pip", "zzpy", "utils"],
     description="Python3 utilities",
     long_description="Python3 utilities",
