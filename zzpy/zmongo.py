@@ -60,7 +60,7 @@ def mongo_count_collection(client, collection, where_condition=None):
     return mongo_collection(client, collection).count_documents(where_condition)
 
 
-def mongo_download_collection(client, path, collection, where_condition=None, progress_title=None):
+def mongo_download_collection(client, path, collection, where_condition=None, progress_title=None, estimated_count=True):
     import jsonlines
     import json
     from .zjson import jsondumps
@@ -72,8 +72,11 @@ def mongo_download_collection(client, path, collection, where_condition=None, pr
     with jsonlines.open(path, mode="w") as fw:
         iter = mongo_collection(client, collection).find(where_condition)
         if progress_title:
-            total = mongo_count_collection(
-                client, collection=collection, where_condition=where_condition)
+            if estimated_count:
+                total = mongo_collection(client, collection).estimated_document_count()
+            else:
+                total = mongo_count_collection(
+                    client, collection=collection, where_condition=where_condition)
             for item in pb(iter, total=total, title=progress_title):
                 fw.write(json.loads(jsondumps(item)))
         else:
