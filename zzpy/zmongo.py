@@ -1,3 +1,6 @@
+from deprecated.sphinx import deprecated
+
+
 __MONGO_URL_KEY = "MONGO_URL"
 
 
@@ -60,6 +63,28 @@ def mongo_count_collection(client, collection, where_condition=None):
     return mongo_collection(client, collection).count_documents(where_condition)
 
 
+def mongo_download(client, path, collection, find_args=None, progress_title=None):
+    import jsonlines
+    import json
+    from .zjson import jsondumps
+    from .zprogress import pb
+
+    if find_args is None:
+        find_args = {}
+
+    with jsonlines.open(path, mode="w") as fw:
+        iter = mongo_collection(client, collection).find(**find_args)
+        if progress_title:
+            total = mongo_collection(
+                client, collection).estimated_document_count()
+            for item in pb(iter, total=total, title=progress_title):
+                fw.write(json.loads(jsondumps(item)))
+        else:
+            for item in iter:
+                fw.write(json.loads(jsondumps(item)))
+
+
+@deprecated
 def mongo_download_collection(client, path, collection, where_condition=None, progress_title=None, estimated_count=True):
     import jsonlines
     import json
@@ -73,7 +98,8 @@ def mongo_download_collection(client, path, collection, where_condition=None, pr
         iter = mongo_collection(client, collection).find(where_condition)
         if progress_title:
             if estimated_count:
-                total = mongo_collection(client, collection).estimated_document_count()
+                total = mongo_collection(
+                    client, collection).estimated_document_count()
             else:
                 total = mongo_count_collection(
                     client, collection=collection, where_condition=where_condition)

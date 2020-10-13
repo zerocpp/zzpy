@@ -41,6 +41,7 @@ from .zmongo import mongo_connect
 from .zmongo import mongo_collection
 from .zmongo import mongo_count_collection
 from .zmongo import mongo_download_collection
+from .zmongo import mongo_download
 
 
 # zmysql
