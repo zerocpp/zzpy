@@ -1,3 +1,6 @@
+from deprecated.sphinx import deprecated
+
+
 DEFAULT_ROOT_DIR = "output"
 
 
