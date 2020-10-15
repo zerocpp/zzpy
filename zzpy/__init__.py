@@ -24,6 +24,21 @@ from .zfile import read_jsonline
 from .zfile import read_jsonline_with_progressbar
 from .zfile import normalize_path
 from .zfile import download_file
+from .zfile import trans_excel_to_csv  # depreciated
+from .zfile import trans_csv_to_excel  # depreciated
+from .zfile import read_csv_dict
+from .zfile import read_csv_rows
+from .zfile import read_csv_head
+from .zfile import open_excel
+from .zfile import get_excel_sheet
+from .zfile import read_excel_head
+from .zfile import read_excel_rows
+from .zfile import read_excel_items
+from .zfile import save_excel_rows
+from .zfile import save_excel_items
+from .zfile import save_items_to_csv
+from .zfile import convert_csv_to_xlsx
+from .zfile import convert_xlsx_to_csv
 
 
 # zdefinition
@@ -99,22 +114,6 @@ from .ztime import get_month
 from .zalioss import AliOss
 from .zalioss import OssConfig
 from .zalioss import oss_connect
-
-
-# zexcel
-from .zexcel import trans_excel_to_csv
-from .zexcel import trans_csv_to_excel
-from .zexcel import read_csv_dict
-from .zexcel import read_csv_rows
-from .zexcel import read_csv_head
-from .zexcel import open_excel
-from .zexcel import get_excel_sheet
-from .zexcel import read_excel_head
-from .zexcel import read_excel_rows
-from .zexcel import read_excel_items
-from .zexcel import save_excel_rows
-from .zexcel import save_excel_items
-from .zexcel import save_items_to_csv
 
 
 # zfunction
