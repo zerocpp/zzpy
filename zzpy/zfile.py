@@ -196,10 +196,15 @@ def download_file(url, path):
 
 
 def remove_illegal_characters(content):
+    if content:
+        content = str(content)
+    else:
+        content = ""
     import re
     ILLEGAL_CHARACTERS_RE = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]|\xa0')
     content = ILLEGAL_CHARACTERS_RE.sub(r'', content)
     return content
+        
 
 
 @deprecated
@@ -344,6 +349,8 @@ def save_items_to_csv(items, path, head=None):
             writer.writerow(head)
         for it in items:
             writer.writerow([it.get(k, "") for k in head])
+
+
 
 
 
