@@ -196,15 +196,10 @@ def download_file(url, path):
 
 
 def remove_illegal_characters(content):
-    if content:
-        content = str(content)
-    else:
-        content = ""
     import re
     ILLEGAL_CHARACTERS_RE = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]|\xa0')
     content = ILLEGAL_CHARACTERS_RE.sub(r'', content)
     return content
-        
 
 
 @deprecated
@@ -351,7 +346,8 @@ def save_items_to_csv(items, path, head=None):
             writer.writerow([it.get(k, "") for k in head])
 
 
-
+def stringify(object):
+    return str(object) if object else ""
 
 
 def convert_csv_to_xlsx(csv_path, xlsx_path):
@@ -360,7 +356,7 @@ def convert_csv_to_xlsx(csv_path, xlsx_path):
     ws = wb.active
     ws.append(read_csv_head(csv_path))
     for row in read_csv_rows(csv_path):
-        ws.append([remove_illegal_characters(str(i)) if i else "" for i in row])
+        ws.append([remove_illegal_characters(stringify(i)) if i else "" for i in row])
     wb.save(xlsx_path)
     
     
@@ -372,4 +368,4 @@ def convert_xlsx_to_csv(xlsx_path, csv_path, encoding="utf-8"):
         wb = openpyxl.load_workbook(xlsx_path)
         ws = wb.active
         for row in ws.rows:
-            writer.writerow([remove_illegal_characters(str(c.value)) for c in row])
+            writer.writerow([remove_illegal_characters(stringify(c.value)) for c in row])
