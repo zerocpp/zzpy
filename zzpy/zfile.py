@@ -194,10 +194,10 @@ def download_file(url, path):
 # excel
 
 
-
 def remove_illegal_characters(content):
     import re
-    ILLEGAL_CHARACTERS_RE = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]|\xa0')
+    ILLEGAL_CHARACTERS_RE = re.compile(
+        r'[\000-\010]|[\013-\014]|[\016-\037]|\xa0')
     content = ILLEGAL_CHARACTERS_RE.sub(r'', content)
     return content
 
@@ -212,9 +212,11 @@ def trans_excel_to_csv(excel_path, csv_path, encoding="utf8", gbk_fixing=True):
         ws = wb.active
         for row in ws.rows:
             if gbk_fixing:
-                writer.writerow([remove_illegal_characters(c.value) for c in row])
+                writer.writerow([remove_illegal_characters(c.value)
+                                 for c in row])
             else:
                 writer.writerow([c.value for c in row])
+
 
 @deprecated
 def trans_csv_to_excel(csv_path, excel_path):
@@ -230,10 +232,11 @@ def trans_csv_to_excel(csv_path, excel_path):
 def read_csv_dict(path, encoding=None):
     import csv
     unknown_encoding = "unknown"
-    encodings = ([encoding] if encoding else ["utf-8-sig", "utf8", "gbk"]) + [unknown_encoding]
+    encodings = ([encoding] if encoding else [
+                 "utf-8-sig", "utf8", "gbk"]) + [unknown_encoding]
     for e in encodings:
         if e == unknown_encoding:
-            error_msg=f"文件编码错误: {path}"
+            error_msg = f"文件编码错误: {path}"
             raise Exception(error_msg)
         try:
             with open(path, encoding=e) as fr:
@@ -249,14 +252,15 @@ def read_csv_dict(path, encoding=None):
 def read_csv_head(path, encoding=None):
     import csv
     unknown_encoding = "unknown"
-    encodings = ([encoding] if encoding else ["utf-8-sig", "utf8", "gbk"]) + [unknown_encoding]
+    encodings = ([encoding] if encoding else [
+                 "utf-8-sig", "utf8", "gbk"]) + [unknown_encoding]
     for e in encodings:
         if e == unknown_encoding:
-            error_msg=f"文件编码错误: {path}"
+            error_msg = f"文件编码错误: {path}"
             raise Exception(error_msg)
         try:
-            with open(path, encoding = e) as fr:
-                reader=csv.reader(fr)
+            with open(path, encoding=e) as fr:
+                reader = csv.reader(fr)
                 return next(reader)
         except:
             pass
@@ -265,14 +269,15 @@ def read_csv_head(path, encoding=None):
 def read_csv_rows(path, encoding=None):
     import csv
     unknown_encoding = "unknown"
-    encodings = ([encoding] if encoding else ["utf-8-sig", "utf8", "gbk"]) + [unknown_encoding]
+    encodings = ([encoding] if encoding else [
+                 "utf-8-sig", "utf8", "gbk"]) + [unknown_encoding]
     for e in encodings:
         if e == unknown_encoding:
-            error_msg=f"文件编码错误: {path}"
+            error_msg = f"文件编码错误: {path}"
             raise Exception(error_msg)
         try:
-            with open(path, encoding = e) as fr:
-                reader=csv.reader(fr)
+            with open(path, encoding=e) as fr:
+                reader = csv.reader(fr)
                 next(reader)
                 yield from reader
             return
@@ -296,6 +301,7 @@ def save_excel_rows(rows, path):
 
 def save_excel_items(items, path, head=None):
     import openpyxl
+    items = list(items)
     if not head:
         head = list(items[0].keys())
     wb = openpyxl.Workbook()
@@ -307,32 +313,32 @@ def save_excel_items(items, path, head=None):
     wb.save(path)
 
 
-def get_excel_sheet(excel, sheet_name = None):
-    sheet_names=excel.sheet_names()
+def get_excel_sheet(excel, sheet_name=None):
+    sheet_names = excel.sheet_names()
     if sheet_name is None:
-        sheet_name=sheet_names[0]
+        sheet_name = sheet_names[0]
     assert sheet_name in sheet_names
     return excel.sheet_by_name(sheet_name)
 
 
-def read_excel_head(excel, sheet_name = None):
-    st=get_excel_sheet(excel, sheet_name = sheet_name)
+def read_excel_head(excel, sheet_name=None):
+    st = get_excel_sheet(excel, sheet_name=sheet_name)
     return st.row_values(0)
 
 
-def read_excel_rows(excel, sheet_name = None):
-    st=get_excel_sheet(excel, sheet_name = sheet_name)
-    nrows=st.nrows
+def read_excel_rows(excel, sheet_name=None):
+    st = get_excel_sheet(excel, sheet_name=sheet_name)
+    nrows = st.nrows
     yield from (st.row_values(i) for i in range(1, nrows))
 
 
-def read_excel_items(excel, sheet_name = None):
-    st=get_excel_sheet(excel, sheet_name = sheet_name)
-    head=read_excel_head(excel, sheet_name = sheet_name)
-    nrows=st.nrows
+def read_excel_items(excel, sheet_name=None):
+    st = get_excel_sheet(excel, sheet_name=sheet_name)
+    head = read_excel_head(excel, sheet_name=sheet_name)
+    nrows = st.nrows
     yield from (dict(zip(head, st.row_values(i))) for i in range(1, nrows))
-    
-    
+
+
 def save_items_to_csv(items, path, head=None):
     import csv
     with open(path, mode="w", encoding="utf-8", newline="") as fw:
@@ -356,10 +362,11 @@ def convert_csv_to_xlsx(csv_path, xlsx_path):
     ws = wb.active
     ws.append(read_csv_head(csv_path))
     for row in read_csv_rows(csv_path):
-        ws.append([remove_illegal_characters(stringify(i)) if i else "" for i in row])
+        ws.append([remove_illegal_characters(
+            stringify(i)) if i else "" for i in row])
     wb.save(xlsx_path)
-    
-    
+
+
 def convert_xlsx_to_csv(xlsx_path, csv_path, encoding="utf-8"):
     import csv
     import openpyxl
@@ -368,4 +375,17 @@ def convert_xlsx_to_csv(xlsx_path, csv_path, encoding="utf-8"):
         wb = openpyxl.load_workbook(xlsx_path)
         ws = wb.active
         for row in ws.rows:
-            writer.writerow([remove_illegal_characters(stringify(c.value)) for c in row])
+            writer.writerow([remove_illegal_characters(
+                stringify(c.value)) for c in row])
+
+
+def convert_xlsx_to_jsonl(xlsx_path, jsonl_path):
+    import jsonlines
+    with jsonlines.open(jsonl_path, mode="w") as fw:
+        items = read_excel_items(xlsx_path)
+        for it in items:
+            fw.write(it)
+
+
+def convert_jsonl_to_xlsx(jsonl_path, xlsx_path):
+    save_excel_items(items=list(read_jsonline(jsonl_path)), path=xlsx_path)
