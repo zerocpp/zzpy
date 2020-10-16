@@ -11,3 +11,8 @@ def get_month(months=0, separator='-'):
     """获取月份，如2019-10"""
     import arrow
     return arrow.now().shift(months=months).format(f"YYYY{separator}MM")
+
+
+def get_now():
+    import arrow
+    return arrow.now().datetime
