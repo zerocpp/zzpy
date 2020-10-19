@@ -389,3 +389,10 @@ def convert_xlsx_to_jsonl(xlsx_path, jsonl_path):
 
 def convert_jsonl_to_xlsx(jsonl_path, xlsx_path):
     save_excel_items(items=list(read_jsonline(jsonl_path)), path=xlsx_path)
+
+
+def save_items_to_jsonl(items, path):
+    import jsonlines
+    with jsonlines.open(path, mode="w") as fw:
+        for it in items:
+            fw.write(it)

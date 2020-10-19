@@ -41,6 +41,7 @@ from .zfile import convert_csv_to_xlsx
 from .zfile import convert_xlsx_to_csv
 from .zfile import convert_jsonl_to_xlsx
 from .zfile import convert_xlsx_to_jsonl
+from .zfile import save_items_to_jsonl
 
 
 # zdefinition
