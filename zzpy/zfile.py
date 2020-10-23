@@ -379,11 +379,14 @@ def convert_xlsx_to_csv(xlsx_path, csv_path, encoding="utf-8"):
                 stringify(c.value)) for c in row])
 
 
-def convert_xlsx_to_jsonl(xlsx_path, jsonl_path):
+def convert_xlsx_to_jsonl(xlsx_path, jsonl_path, force_str=True):
     import jsonlines
     with jsonlines.open(jsonl_path, mode="w") as fw:
         items = read_excel_items(open_excel(xlsx_path))
         for it in items:
+            if force_str:
+                for k in it:
+                    it[k] = str(it[k])
             fw.write(it)
 
 

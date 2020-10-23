@@ -11,7 +11,6 @@ Python3 Utilities
 
 
 # 未完成
-- [ ] zexcel
 - [ ] zcaptcha
 - [ ] zbrowser
 - [ ] zjson
