@@ -1,6 +1,3 @@
-from deprecated.sphinx import deprecated
-
-
 __MONGO_URL_KEY = "MONGO_URL"
 
 
@@ -83,8 +80,6 @@ def mongo_download(client, path, collection, find_args=None, progress_title=None
             for item in iter:
                 fw.write(json.loads(jsondumps(item)))
 
-
-@deprecated
 def mongo_download_collection(client, path, collection, where_condition=None, progress_title=None, estimated_count=True):
     import jsonlines
     import json

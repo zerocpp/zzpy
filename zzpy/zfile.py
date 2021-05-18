@@ -1,6 +1,3 @@
-from deprecated.sphinx import deprecated
-
-
 DEFAULT_ROOT_DIR = "output"
 
 
@@ -202,7 +199,6 @@ def remove_illegal_characters(content):
     return content
 
 
-@deprecated
 def trans_excel_to_csv(excel_path, csv_path, encoding="utf8", gbk_fixing=True):
     import csv
     import openpyxl
@@ -218,7 +214,6 @@ def trans_excel_to_csv(excel_path, csv_path, encoding="utf8", gbk_fixing=True):
                 writer.writerow([c.value for c in row])
 
 
-@deprecated
 def trans_csv_to_excel(csv_path, excel_path):
     import openpyxl
     wb = openpyxl.Workbook()
